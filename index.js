@@ -38,6 +38,11 @@ TinyQueue.prototype = {
         this._down(index);
     },
 
+    empty: function() {
+        this.data = [];
+        this.length = 0;
+    },
+
     pop: function() {
         if (this.length === 0) return undefined;
 
