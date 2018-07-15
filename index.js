@@ -20,14 +20,25 @@ function defaultCompare(a, b) {
 }
 
 TinyQueue.prototype = {
-
-    push: function (item) {
+    push: function(item) {
         this.data.push(item);
         this.length++;
         this._up(this.length - 1);
     },
 
-    pop: function () {
+    remove: function(attrName, attrVal) {
+        if (this.length === 0) return undefined;
+
+        const index = this.data.findIndex(dataEl => dataEl[attrName] === attrVal);
+
+        if (index < 0) return;
+
+        this.data.splice(index, 1);
+        this.length--;
+        this._down(index);
+    },
+
+    pop: function() {
         if (this.length === 0) return undefined;
 
         var top = this.data[0];
@@ -42,11 +53,11 @@ TinyQueue.prototype = {
         return top;
     },
 
-    peek: function () {
+    peek: function() {
         return this.data[0];
     },
 
-    _up: function (pos) {
+    _up: function(pos) {
         var data = this.data;
         var compare = this.compare;
         var item = data[pos];
@@ -62,7 +73,7 @@ TinyQueue.prototype = {
         data[pos] = item;
     },
 
-    _down: function (pos) {
+    _down: function(pos) {
         var data = this.data;
         var compare = this.compare;
         var halfLength = this.length >> 1;
